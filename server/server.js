@@ -16,7 +16,6 @@ app.use(express.static("public"))
 
 app.use("/api/auth",require('./routs/autherRouts'))
 app.use("/api/products",require("./routs/productRouts"))
-app.use("/api/auth", require("./routes/auth"));
 app.use('/api/user',require('./routs/userRouts'))
 app.post('/api/uploads',upload.single('image'),(req,res)=>{
     res.json(req.file)

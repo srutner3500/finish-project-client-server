@@ -26,36 +26,30 @@ const Login = () => {
     setLoginForm({ userName: "", password: "" })
   }
 
- const handleGoogleLogin = async () => {
-  try {
-    provider.setCustomParameters({ prompt: 'select_account' });
-
-    const result = await signInWithPopup(auth, provider)
-    const user = result.user
-
-    const response = await fetch("http://localhost:5000/api/auth/google", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+  // התחברות עם Google
+  const handleGoogleLogin = async () => {
+    try {
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
+      const result = await signInWithPopup(auth, provider)
+      console.log('Google login result:', result)
+      const user = result.user
+      const userData = {
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
-        photoURL: user.photoURL
-      })
-    });
-
-    const data = await response.json();
-
-    dispatch(setToken({ token: data.token }))
-    const decoded = jwtDecode(data.token)
-    dispatch(setUser({ user: decoded }))
-    dispatch(loadBasket())
-    nav("/home")
-
-  } catch (error) {
-    console.error("Google login failed:", error)
-  }
-};
+        photoURL: user.photoURL,
+        roles: 'User' // ברירת מחדל למשתמש Google
+      }
+      console.log('User data to save:', userData)
+      dispatch(setUser({ user: userData }))
+      console.log('Navigating to /home')
+      nav("/home")
+    } catch (error) {
+      console.error("Google login failed:", error)
+    }
+  };
 
  //התחברות רגילה
   useEffect(() => {
