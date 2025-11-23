@@ -1,0 +1,813 @@
+body{
+    background-color: rgb(252, 252, 252);
+    padding-top: 200px;
+}
+.products-wrapper {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    justify-content: flex-end;
+}
+
+.products-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #e3b448;
+    font-size:3rem;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    justify-content: end;
+}
+
+.product-container {
+    background-color: rgb(254, 255, 253);
+    /* border: 3px solid rgb(221, 253, 157); */
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    transition: transform 0.2s;
+}
+
+.product-container:hover {
+    transform: scale(1.03);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-info {
+    text-align: center;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #e3b448;
+}
+
+.product-price {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #3a6b35;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #3a6b35;
+}
+
+.product-inventory{
+    color: #e3b448;
+}
+
+.delete-btn ,.update-btn ,.basket-btn,.sale-btn{
+    background-color: #3a6b35;
+    color: #cbd18f;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 4px;
+}
+.add-btn{
+    background-color: #3a6b35;
+    color: #cbd18f;
+    border: none;
+    padding: 15px 10px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+.add-btn:hover {
+    background-color: #4a8144;
+    transform: translateY(-2px);
+}
+
+.add-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.delete-btn:hover {
+    background-color: #be123c;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #cbd18f;
+}
+.add-product-page, .add-product-form, .add-product-form *{box-sizing:border-box}
+
+.controler{
+    color: #3a6b35;
+}
+.control input[type="text"],
+.control input[type="number"],
+.control textarea,
+.control select{
+width:100%;
+padding:10px 12px;
+border:1px solid #e6eef6;
+border-radius:8px;
+font-size:14px;
+outline:none;
+}
+
+
+.control input[type="file"]{
+padding:6px 8px;
+}
+
+
+.control textarea{resize:vertical}
+
+
+.actions{
+display:flex;
+gap:10px;
+justify-content:flex-end;
+margin-top:6px;
+}
+
+
+.btn{
+padding:8px 14px;
+border-radius:8px;
+border:0;
+cursor:pointer;
+font-weight:600;
+}
+
+
+.btn.save{
+background:#3a6b35;
+color:#fff;
+}
+
+
+.btn.cancel{
+background:#f3f4f6;
+color:#374151;
+}
+
+
+/* responsive */
+@media(min-width:768px){
+.add-product-form{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px 18px;
+}
+.add-product-form .form-title{grid-column:1 / -1}
+.add-product-form .field:nth-last-child(2){grid-column:1 / -1}
+.actions{grid-column:1 / -1}
+}
+.sale-image{
+  width: 60px;
+  height: 60px;
+}
+.controler input[type="number"] {
+  width: 40px;        /* רוחב מתאים */
+  padding: 4px 8px;   /* ריווח פנימי קטן */
+  font-size: 14px;
+  border: 1px solid #d6baba;
+  border-radius: 4px;
+  outline: none;
+}
+
+/* גוף הדף */
+.basket-container {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color:rgb(246, 237, 223);
+  box-sizing: border-box;
+}
+
+/* כותרת */
+.basket-title,.no-basket,.pay-title{
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.basket-grid {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  margin-left: auto; 
+  gap: 1rem;
+}
+
+/* כרטיס מוצר */
+.basket-card {
+  background-color:#fff;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.basket-card:hover {
+  transform: translateY(-5px);
+}
+
+/* תמונה */
+.basket-image {
+  width: 55%;
+  height: 55%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* שם, מחיר וכמות */
+.basket-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.basket-price {
+  color: #3a6b35;
+  margin-bottom: 0.3rem;
+}
+
+.basket-quantity {
+  color: #e3b448;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+}
+.basket-description{
+  color: #e3b448;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+}
+
+/* כפתורים */
+.basket-remove {
+  background-color: #3a6b35;
+  color: white;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.pay {
+  position: fixed; 
+  bottom:4rem;     
+  left: 3rem; 
+  background-color: #3a6b35;
+  color: white;
+  padding: 0.9rem 3rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  z-index: 1000; 
+}
+
+.basket-clear {
+  position: fixed; 
+  top: 15rem;     
+  left: 3rem;      
+  background-color: #3a6b35;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor:pointer;
+  font-weight: 600;
+  z-index: 1000; 
+}
+.total-pay{
+  position: fixed; 
+  bottom:7rem;     
+  left: 3rem; 
+  color: #3a6b35;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+  z-index: 1000;
+}
+
+.pay-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  justify-content: center; 
+  gap: 20px;
+  padding: 20px;
+  background-color: rgb(246, 237, 223);
+  min-height: 100vh;
+}
+
+/* כרטיס מוצר */
+.pay-card {
+  width: 200px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* לא מתפזר לגובה מלא */
+  background-color: rgb(246, 237, 223);
+  border-radius: 12px;
+  gap: 10px; /* רווח בין התמונה לטקסט */
+}
+
+/* תמונת מוצר */
+.pay-image {
+  width: 100%;
+  height: auto; 
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+/* שם מוצר */
+.pay-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* מחיר מוצר */
+.pay-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #3a6b35;
+}
+
+/* כמות מוצר */
+.pay-quantity {
+  font-size: 0.8rem;
+  color: #555555;
+}
+
+/* רספונסיביות */
+@media (max-width: 900px) {
+  .pay-grid {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media (max-width: 500px) {
+  .pay-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.kategory{
+  position: relative;
+  top:1rem;     
+  left: 0.5rem; 
+  background-color: rgb(254, 254, 254);
+  color: #3a6b35;
+  padding: 0.8rem 3rem;
+  border: none solid #3a6b35;
+  border-radius: 0.4rem;
+  cursor: pointer; 
+}
+
+/* עטיפה כללית */
+form {
+  width: 350px;
+  margin: 70px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.12);
+  text-align: right;
+  direction: rtl;
+  font-family: 'Alef', sans-serif;
+}
+
+/* הכותרת */
+form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #3a6b35;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* תיבת קלט */
+form input {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #d7d7d7;
+  border-radius: 10px;
+  margin-top: 5px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+/* כפתור */
+form button {
+  width: 100%;
+  background: #3a6b35;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  margin-top: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.25s;
+  font-weight: 600;
+}
+
+/* אפקט העלאת צבע */
+form button:hover {
+  background: #4a8144;
+}
+
+/* עיטוף השדות */
+form div {
+  margin-bottom: 18px;
+}
+
+/* הלייבלים */
+form label {
+  font-weight: 600;
+  color: #e3b448;
+  font-size: 15px;
+}
+/* עיצוב שדה החיפוש */
+.search {
+  width: 100%;
+  max-width: 300px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 2px solid #cfcfcf;
+  outline: none;
+  transition: 0.25s ease;
+  background-color: #ffffff;
+  direction: rtl;
+  cursor: text;
+  background-repeat: no-repeat;
+  padding: 8px 12px;
+  display: block;
+  margin-right: 0;
+  margin-left: auto;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+/* אפקט פוקוס */
+.search:focus {
+  border-color: #e3b448;
+}
+
+
+
+
+/* ===== טאבלט גדול (1024px - 1200px) ===== */
+@media (min-width: 1024px) and (max-width: 1200px) {
+  
+  body {
+    padding-top: 180px;
+  }
+
+  .products-title {
+    font-size: 2.8rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+  }
+
+  .basket-grid {
+    width: 35%;
+  }
+
+  .pay-grid {
+    grid-template-columns: repeat(4, 200px);
+  }
+
+  form {
+    width: 420px;
+  }
+
+  .search {
+    max-width: 380px;
+  }
+}
+
+/* ===== טאבלט רגיל (768px - 1024px) ===== */
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  body {
+    padding-top: 170px; /* התאמה לגובה הניווט בטאבלט */
+  }
+
+  /* ===== ניווט ===== */
+  .products-title {
+    font-size: 2.5rem;
+  }
+
+  /* ===== גריד מוצרים ===== */
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .product-container {
+    padding: 12px;
+  }
+
+  .product-image {
+    height: 180px;
+  }
+
+  .product-name {
+    font-size: 1.1rem;
+  }
+
+  .product-price {
+    font-size: 0.95rem;
+  }
+
+  .product-description {
+    font-size: 0.85rem;
+  }
+
+  /* כפתורים */
+  .delete-btn, .update-btn, .basket-btn, .sale-btn {
+    padding: 7px 11px;
+    font-size: 14px;
+    margin: 3px;
+  }
+
+  .add-btn {
+    padding: 12px 8px;
+    font-size: 15px;
+  }
+
+  /* ===== עגלת קניות ===== */
+  .basket-container {
+    padding: 1.5rem;
+  }
+
+  .basket-grid {
+    width: 40%;
+    gap: 1.2rem;
+  }
+
+  .basket-card {
+    padding: 1.2rem;
+  }
+
+  .basket-image {
+    width: 60%;
+    height: 60%;
+  }
+
+  .basket-title, .no-basket, .pay-title {
+    font-size: 1.8rem;
+  }
+
+  .basket-name {
+    font-size: 1rem;
+  }
+
+  .basket-price, .basket-quantity, .basket-description {
+    font-size: 0.9rem;
+  }
+
+  .basket-clear {
+    left: 2rem;
+    padding: 0.7rem 2rem;
+    font-size: 15px;
+  }
+
+  .pay {
+    left: 2rem;
+    padding: 1rem 3.5rem;
+    font-size: 16px;
+  }
+
+  .total-pay {
+    left: 2rem;
+    font-size: 1.3rem;
+  }
+
+  /* ===== דף תשלום ===== */
+  .pay-grid {
+    grid-template-columns: repeat(3, 220px);
+    gap: 18px;
+    padding: 15px;
+  }
+
+  .pay-card {
+    width: 220px;
+    padding: 12px;
+  }
+
+  .pay-name {
+    font-size: 0.85rem;
+  }
+
+  .pay-price {
+    font-size: 0.95rem;
+  }
+
+  .pay-quantity {
+    font-size: 0.75rem;
+  }
+
+  /* ===== טופס ===== */
+  form {
+    width: 400px;
+    padding: 25px;
+  }
+
+  form h2 {
+    font-size: 22px;
+  }
+
+  form input {
+    padding: 11px;
+    font-size: 14px;
+  }
+
+  form button {
+    padding: 11px;
+    font-size: 15px;
+  }
+
+  form label {
+    font-size: 14px;
+  }
+
+  /* ===== חיפוש ===== */
+  .search {
+    max-width: 350px;
+    font-size: 15px;
+    padding: 7px 11px;
+  }
+
+  /* ===== קטגוריות ===== */
+  .kategory {
+    padding: 0.8rem 2.5rem;
+    left: 1rem;
+    font-size: 16px;
+  }
+
+  /* ===== שדות קלט ===== */
+  .control input[type="text"],
+  .control input[type="number"],
+  .control textarea,
+  .control select {
+    padding: 9px 11px;
+    font-size: 13px;
+  }
+
+  .controler input[type="number"] {
+    width: 45px;
+    padding: 4px 7px;
+    font-size: 13px;
+  }
+
+  /* ===== כפתורי פעולות ===== */
+  .btn {
+    padding: 7px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  /* ===== גריד מוצרים ===== */
+  .products-grid {
+    grid-template-columns: 1fr; /* כרטיס אחד בשורה */
+    gap: 12px;
+  }
+
+  .product-container {
+    padding: 10px;
+  }
+
+  .product-image {
+    height: 150px;
+  }
+
+  /* ===== עגלת קניות ===== */
+  .basket-container {
+    padding: 1rem;
+  }
+
+  .basket-grid {
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .basket-card {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .basket-image {
+    width: 80%;
+    height: auto;
+  }
+
+  /* כפתורים בצד שמאל */
+  .basket-clear,
+  .pay,
+  .total-pay {
+    left: 1rem; 
+    transform: scale(0.9); /* קצת יותר קטן שלא יבלוט */
+  }
+
+  /* ===== דף תשלום ===== */
+  .pay-grid {
+    grid-template-columns: 1fr; /* כרטיס אחד לשורה */
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .pay-card {
+    width: 100%;
+  }
+
+  .pay-image {
+    height: 150px;
+  }
+
+  /* ===== טופס ===== */
+  form {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  form h2 {
+    font-size: 20px;
+  }
+
+  form input,
+  form button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* ===== חיפוש ===== */
+  .search {
+    max-width: 100%;
+    font-size: 14px;
+  }
+
+  /* ===== קטגוריות ===== */
+  .kategory {
+    width: 90%;
+    left: 0;
+    text-align: center;
+    padding: 0.7rem 1rem;
+  }
+}
+
+.auth-actions {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.auth-actions button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.auth-actions button:hover {
+  background-color: #357abd;
+}
